@@ -1,0 +1,40 @@
+{
+  "name": "nourin-services",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "node scripts/check-fonts.mjs",
+    "build": "next build",
+    "postbuild": "node scripts/filter-font-preloads.mjs",
+    "start": "serve out -l 3000",
+    "lint": "eslint",
+    "media": "node scripts/media.mjs",
+    "check": "node scripts/check.mjs",
+    "design-ref": "node scripts/design-ref.mjs",
+    "og": "node scripts/og.mjs",
+    "fonts": "node scripts/fonts.mjs",
+    "lighthouse": "node scripts/lighthouse.mjs"
+  },
+  "dependencies": {
+    "next": "16.3.8",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "chrome-launcher": "^1.2.2",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.8",
+    "lighthouse": "^13.5.0",
+    "playwright": "^1.64.1",
+    "serve": "^14",
+    "sharp": "^0.34.4",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "wawoff2": "^2.0.1"
+  }
+}
