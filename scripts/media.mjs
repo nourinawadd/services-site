@@ -10,6 +10,8 @@
 // - public/bg/grain.webp: one tileable noise square for .grain.
 // - public/media/<cafe>-<lang>-poster-<w>.{avif,webp}: the phone hero
 //   screenshots, cropped from the top to the phone frame in #work.
+// - public/media/<cafe>-<lang>-desktop-<w>.{avif,webp}: the desktop hero
+//   screenshots, cropped from the top to 16:9 for the browser window behind it.
 // - public/media/<cafe>-demo.{mp4,webm}: the recordings, cropped to the same
 //   area (the frame never shows the rest), silent, small.
 
@@ -133,11 +135,12 @@ async function backgrounds() {
 }
 
 /**
- * The phone frame in #work shows the top of the screen at about 3:4 (w:h), so
- * posters and videos are cut to that. Posters at two widths: the frame is
- * about 256 CSS px wide on desktop and 160 on phones, at 2x and 3x screens.
+ * The phone screen in #work measures 0.643 to 0.663 (w:h), so posters and
+ * videos are cut a touch narrower, at 16:25: the full width always shows and
+ * object-cover only trims a few px off the bottom. Posters at two widths: the
+ * screen is about 200 CSS px wide on desktop and 110-320 on phones and tablets.
  */
-const FRAME = 3 / 4;
+const FRAME = 16 / 25;
 const POSTER_WIDTHS = [300, 520];
 const cafes = ["melky", "ghaym"];
 
@@ -162,13 +165,42 @@ async function posters() {
 }
 
 /**
- * 480x640 at 24fps, the top of each recording, no audio. H.264 plays
- * everywhere; the VP9 copy is kept only when it is smaller (the page lists
- * whichever files exist).
+ * The browser window behind the phone shows the top of the desktop hero at
+ * 16:9. It is about 390 CSS px wide on desktop and 250 on phones, so 800
+ * covers 2x and 3x screens and 420 the rest.
+ */
+const DESKTOP = 16 / 9;
+const DESKTOP_WIDTHS = [420, 800];
+
+async function desktops() {
+  await mkdir("public/media", { recursive: true });
+  for (const cafe of cafes) {
+    for (const lang of ["en", "ar"]) {
+      const src = `design/assets/${cafe}-${lang}-desktop-hero.png`;
+      const { width } = await sharp(src).metadata();
+      const crop = { left: 0, top: 0, width, height: Math.round(width / DESKTOP) };
+      for (const w of DESKTOP_WIDTHS) {
+        const base = `public/media/${cafe}-${lang}-desktop-${w}`;
+        if (!force && (await exists(`${base}.avif`)) && (await exists(`${base}.webp`))) continue;
+        const image = sharp(src).extract(crop).resize(w);
+        await image.clone().avif({ quality: 52, effort: 9 }).toFile(`${base}.avif`);
+        await image.clone().webp({ quality: 74, effort: 6 }).toFile(`${base}.webp`);
+        const sizes = await Promise.all([stat(`${base}.avif`), stat(`${base}.webp`)]);
+        console.log(`media/${cafe}-${lang}-desktop-${w}: avif ${sizes[0].size} B, webp ${sizes[1].size} B`);
+      }
+    }
+  }
+}
+
+/**
+ * 480x752 at 24fps, the top of each recording, no audio. Both sides stay
+ * multiples of 16: Chrome's hardware VP9 decoder on Windows garbled every
+ * frame at 480x750. H.264 plays everywhere; the VP9 copy is kept only when it
+ * is smaller (the page lists whichever files exist).
  */
 async function videos() {
   await mkdir("public/media", { recursive: true });
-  const crop = `crop=iw:iw/${FRAME}:0:0,scale=480:640,setsar=1,fps=24`;
+  const crop = `crop=iw:iw/${FRAME}:0:0,scale=480:752,setsar=1,fps=24`;
   for (const cafe of cafes) {
     const src = `design/assets/${cafe}-demo.mp4`;
     const mp4 = `public/media/${cafe}-demo.mp4`;
@@ -192,5 +224,6 @@ async function videos() {
 
 await backgrounds();
 await posters();
+await desktops();
 await videos();
 console.log("media: done");

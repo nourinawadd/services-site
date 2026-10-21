@@ -123,7 +123,8 @@
     animation: blink 1.1s steps(1) infinite;
   }
   .strip-drift {
-    animation: strip 42s linear infinite;
+    /* 42s per set of words, so the pace holds however many repeats fit. */
+    animation: strip calc(var(--repeats, 1) * 42s) linear infinite;
   }
   .ring-breathe {
     animation: breathe 8s ease-in-out infinite;

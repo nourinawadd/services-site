@@ -8,15 +8,36 @@ import { site } from "@/site.config";
 type T = Content["work"];
 type Cafe = keyof T["figures"];
 
-/** Each demo's own colours for its card and phone frame, from the artboard. */
-const looks: Record<Cafe, { card: string; frame: string }> = {
-  melky: { card: "bg-[#FAF6F3]", frame: "border-[#3E2F26] bg-[#F1E8D9]" },
-  ghaym: { card: "bg-[#EFEBE0]", frame: "border-[#45324D] bg-[#EFEBE0]" },
+/** Each demo's own colours for its card, browser frame and phone bezel, from the artboard. */
+const looks: Record<Cafe, { card: string; frame: string; bezel: string }> = {
+  melky: { card: "bg-[#FAF6F3]", frame: "border-[#3E2F26] bg-[#F1E8D9]", bezel: "bg-[#3E2F26]" },
+  ghaym: { card: "bg-[#EFEBE0]", frame: "border-[#45324D] bg-[#EFEBE0]", bezel: "bg-[#45324D]" },
 };
 
-/** Poster widths made by scripts/media.mjs, cut to the frame's 3:4. */
-const widths = [300, 520];
-const srcSet = (base: string, ext: string) => widths.map((w) => `${base}-${w}.${ext} ${w}w`).join(", ");
+/** Widths made by scripts/media.mjs: phone posters cut to the screen's 16:25, desktop shots to 16:9. */
+const posterWidths = [300, 520];
+const desktopWidths = [420, 800];
+
+/** A lazy AVIF/WebP screenshot filling its frame from the top. */
+function Shot({ base, widths, ratio, sizes }: { base: string; widths: number[]; ratio: number; sizes: string }) {
+  const srcSet = (ext: string) => widths.map((w) => `${base}-${w}.${ext} ${w}w`).join(", ");
+  return (
+    <picture>
+      <source type="image/avif" srcSet={srcSet("avif")} sizes={sizes} />
+      <img
+        src={`${base}-${widths[0]}.webp`}
+        srcSet={srcSet("webp")}
+        sizes={sizes}
+        width={widths[0]}
+        height={Math.round(widths[0] / ratio)}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover object-top"
+      />
+    </picture>
+  );
+}
 
 /** The VP9 copy only exists when it came out smaller than the mp4 (scripts/media.mjs). */
 function videoSources(cafe: Cafe) {
@@ -27,10 +48,10 @@ function videoSources(cafe: Cafe) {
   return sources;
 }
 
-/** Ghaym's cloud, floating beside its phone. */
+/** Ghaym's cloud, peeking out behind its phone. */
 function Cloud() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 200 90" className="absolute start-[8%] top-[22%] w-[34%] opacity-90">
+    <svg aria-hidden="true" viewBox="0 0 200 90" className="absolute end-[2%] top-[8%] w-[24%] opacity-90">
       <path
         d="M30 70 C 8 70, 6 44, 26 42 C 26 22, 56 16, 66 32 C 76 10, 112 12, 116 36 C 140 28, 158 46, 148 64 C 168 66, 166 82, 148 82 L 36 82 C 18 82, 16 70, 30 70 Z"
         fill="#D9C7DF"
@@ -44,33 +65,49 @@ function Cloud() {
 function DemoFigure({ cafe, lang, t }: { cafe: Cafe; lang: Lang; t: T["figures"][Cafe] }) {
   const demo = site.demos[cafe];
   const look = looks[cafe];
-  const poster = `/media/${cafe}-${lang}-poster`;
 
   return (
     <figure className="rise-view m-0">
       <a href={demo.url} className="block text-ink no-underline">
-        <div
-          className={`lift relative box-border flex aspect-[4/3] items-end justify-center overflow-hidden rounded-card border-[1.5px] border-ink pt-9 ${look.card}`}
-        >
-          {cafe === "ghaym" && <Cloud />}
+        <div className={`lift relative aspect-[4/3] overflow-hidden rounded-card border-[1.5px] border-ink ${look.card}`}>
           <div
-            className={`relative h-[92%] w-[46%] overflow-hidden rounded-t-[26px] border-[1.5px] border-b-0 ${look.frame}`}
+            className={`absolute start-[6%] top-[11%] w-[70%] overflow-hidden rounded-[10px] border-[1.5px] ${look.frame}`}
           >
-            <picture>
-              <source type="image/avif" srcSet={srcSet(poster, "avif")} sizes="(min-width: 901px) 260px, 46vw" />
-              <img
-                src={`${poster}-${widths[0]}.webp`}
-                srcSet={srcSet(poster, "webp")}
-                sizes="(min-width: 901px) 260px, 46vw"
-                width={widths[0]}
-                height={widths[0] * (4 / 3)}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 h-full w-full object-cover object-top"
+            <div aria-hidden="true" className="flex h-3.5 items-center gap-1 px-2">
+              {[0, 1, 2].map((dot) => (
+                <span key={dot} className="size-1.5 rounded-full border border-current opacity-60" />
+              ))}
+            </div>
+            <div className="relative aspect-video">
+              <Shot
+                base={`/media/${cafe}-${lang}-desktop`}
+                widths={desktopWidths}
+                ratio={16 / 9}
+                sizes="(min-width: 901px) 400px, 66vw"
               />
-            </picture>
-            <DemoVideo sources={videoSources(cafe)} className="absolute inset-0 h-full w-full object-cover object-top" />
+            </div>
+          </div>
+          {cafe === "ghaym" && <Cloud />}
+          {/* A plain phone: dark bezel, rounded screen and a pill-shaped island, rising from the card's edge. */}
+          <div
+            className={`absolute end-[7%] bottom-0 h-[80%] w-[38%] rounded-t-[26px] p-1 pb-0 lg:rounded-t-[30px] lg:p-1.5 lg:pb-0 ${look.bezel}`}
+          >
+            {/* The island sits in its own status-bar strip, so it never covers the site's top bar. */}
+            <div className={`relative h-full overflow-hidden rounded-t-[22px] lg:rounded-t-[24px] ${look.bezel}`}>
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-1 mx-auto h-2.5 w-[30%] rounded-pill bg-ink lg:top-1.5 lg:h-3"
+              />
+              <div className={`absolute inset-x-0 top-4 bottom-0 lg:top-5 ${look.frame}`}>
+                <Shot
+                  base={`/media/${cafe}-${lang}-poster`}
+                  widths={posterWidths}
+                  ratio={16 / 25}
+                  sizes="(min-width: 901px) 220px, 40vw"
+                />
+                <DemoVideo sources={videoSources(cafe)} className="absolute inset-0 h-full w-full object-cover object-top" />
+              </div>
+            </div>
           </div>
         </div>
         <figcaption className="mt-4 flex flex-wrap justify-between gap-x-4 gap-y-2 font-mono text-[13px] ar:mt-3.5 ar:font-body ar:text-[15px]">

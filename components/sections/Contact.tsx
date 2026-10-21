@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { WhatsAppCta } from "@/components/bits/WhatsAppCta";
 import { Mixed } from "@/components/Mixed";
 import type { Content } from "@/content/types";
@@ -5,23 +6,37 @@ import { site } from "@/site.config";
 
 const separators = [",;'`.,;'`.", ".`';,.`';,"];
 
+/** Each copy of the words must outrun the widest screen, or the loop shows an empty tail. */
+const STRIP_MIN_WIDTH = 2560;
+/** Geist Mono's advance at 14px. Arabic words in the body face run a little narrower, which only adds margin. */
+const STRIP_CHAR_WIDTH = 8.4;
+
 /**
- * The ASCII strip: the words with alternating squiggles, twice over, so moving
- * the track by half its width loops without a seam. Always left to right, also
- * on /ar (its Arabic words still get the Arabic body face from lang="ar").
+ * The ASCII strip: the words with alternating squiggles, repeated until one
+ * copy is wider than any screen, then twice over, so moving the track by half
+ * its width loops without a seam. The duration grows with the repeats, so the
+ * speed stays the same. Always left to right, also on /ar (its Arabic words
+ * still get the Arabic body face from lang="ar").
  */
 function Strip({ words }: { words: string[] }) {
-  const half = words.map((word, i) => (
-    <span key={i}>
-      {separators[i % 2]}
-      {"  "}
-      <span className="ar:font-body">{word}</span>
-      {"  "}
-    </span>
-  ));
+  const chars = words.reduce((sum, word) => sum + separators[0].length + 4 + word.length, 0);
+  const repeats = Math.ceil(STRIP_MIN_WIDTH / (chars * STRIP_CHAR_WIDTH));
+  const half = Array.from({ length: repeats }, () => words)
+    .flat()
+    .map((word, i) => (
+      <span key={i}>
+        {separators[i % 2]}
+        {"  "}
+        <span className="ar:font-body">{word}</span>
+        {"  "}
+      </span>
+    ));
   return (
     <div aria-hidden="true" dir="ltr" className="mt-[90px] overflow-hidden border-y border-paper/20 py-3.5 ar:py-3">
-      <div className="strip-drift flex w-max font-mono text-[14px] whitespace-pre text-[#8FA36E]">
+      <div
+        className="strip-drift flex w-max font-mono text-[14px] whitespace-pre text-[#8FA36E]"
+        style={{ "--repeats": repeats } as CSSProperties}
+      >
         {half}
         {half}
       </div>
