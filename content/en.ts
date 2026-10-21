@@ -1,0 +1,203 @@
+import type { Content } from "./types";
+
+export const en = {
+  meta: {
+    title: "Nourin · Café websites",
+    description:
+      "Your menu, your mood and your booking button in one link that Google can actually find. Arabic and English, fast on every phone, designed and built by one person.",
+    ogAlt: "Websites for cafés in Egypt, by Nourin",
+  },
+  header: {
+    wordmark: "nourin",
+    wordmarkSub: "/ services",
+    navLabel: "Sections",
+    nav: { packages: "Packages", work: "Work", how: "How it works", contact: "Contact" },
+    languageLabel: "Language",
+  },
+  hero: {
+    label: "(01) BASED IN MANSOURA · WORKING ACROSS EGYPT",
+    title: [
+      { t: "Websites " },
+      { t: "for", s: "out" },
+      "br",
+      { t: "cafés", s: "script", scale: 1.22, circle: true },
+      { t: " " },
+      { t: "in", s: "italic" },
+      "br",
+      { t: "Egypt.", s: "grot", scale: 0.9 },
+    ],
+    sub: "Your menu, your mood and your booking button in one link that Google can actually find. Arabic and English, fast on every phone, designed and built by one person.",
+    cta: "Message me on WhatsApp",
+    seePackages: "See packages ↓",
+    launchNote: "launch prices for the first 3 cafés ↘",
+    ascii: {
+      label: "An ASCII drawing of a phone showing a café menu",
+      title: "M E N U",
+      items: [
+        ["flat white", "85"],
+        ["v60 pour", "95"],
+        ["san sebastian", "120"],
+        ["mint lemonade", "60"],
+      ],
+      button: "[ book a table ]",
+    },
+    sideNote: { before: "no more", file: "menu_final_v3.pdf", after: "on google drive" },
+  },
+  why: {
+    label: "(02) WHY NOT JUST A LINKTREE?",
+    title: [
+      { t: "A link list and a " },
+      { t: "PDF", s: "grot", scale: 0.8 },
+      { t: " menu " },
+      { t: "isn’t", s: "out" },
+      { t: " a " },
+      { t: "website", s: "script", scale: 1.25, color: "moss" },
+      { t: "." },
+    ],
+    intro:
+      "Almost every café in Egypt has the same setup: a Linktree with the socials, and a Google Drive link to a PDF menu. It works, but customers pinch, zoom and wait. And Google can’t show any of it to someone searching for a café nearby.",
+    usual: {
+      label: "THE USUAL",
+      pills: ["Instagram", "TikTok"],
+      pdf: "menu_final_v3.pdf",
+      zoom: ["zoom...", "zoom...", "loading..."],
+      cons: [
+        "Menu is a PDF in Google Drive",
+        "Tiny text, pinch to read prices",
+        "Slow to open on mobile data",
+        "Doesn’t show up in Google search",
+        "Looks like every other café",
+      ],
+    },
+    own: {
+      label: "YOUR OWN SITE",
+      google: {
+        prefix: "google › ",
+        query: "cafés in Mansoura",
+        arrow: "↳ ",
+        domain: "yourcafe.com",
+        rest: " · menu · hours · book a table",
+      },
+      pros: [
+        "Menu opens instantly, sized for phones",
+        "Arabic and English, easy to read",
+        "Built with SEO so Google can list you when people search for cafés nearby",
+        "Linked to your Google Maps listing",
+        "One link for your bio, QR codes and Maps",
+        "Booking button straight to WhatsApp",
+        "Looks like your café, not a template",
+      ],
+      note: "keep your link in bio, it just points somewhere better ↗",
+    },
+  },
+  packages: {
+    label: "(03) PACKAGES · PRICES IN EGP",
+    title: [
+      { t: "Three", s: "script", scale: 1.15 },
+      { t: " ways" },
+      "br",
+      { t: "to get " },
+      { t: "online.", s: "grot", scale: 0.82 },
+    ],
+    note: "launch prices for the first 3 cafés, then they go up. no hidden fees.",
+    currency: "EGP",
+    stamp: "THE FULL SET · BILINGUAL · QR ·",
+    number: (n) => `No. ${String(n).padStart(2, "0")}`,
+    launchMeta: (full) => `launch price · ${full} after`,
+    days: (n) => `${n} working ${n === 1 ? "day" : "days"}`,
+    revisions: (r) => `${r} revision ${r === 1 ? "round" : "rounds"}`,
+    example: (name) => `Example: ${name} ↗`,
+    items: {
+      starter: { tag: "ONE PAGE", blurb: "A single scrolling menu site. Clean and quick." },
+      standard: { tag: "5 PAGES", blurb: "The full café site, in both languages." },
+      brand: {
+        tag: "BRAND + 5 PAGES",
+        blurb: "A new identity, then the site built on it.",
+        noExample: "Example: Ghaym brand · [coming soon]",
+      },
+    },
+    addon: {
+      label: "+ ADD-ON · FOR STARTER",
+      description:
+        "Full Arabic and English with a toggle and proper right-to-left layout. Adds 2 working days. Translation is extra unless you send the text.",
+      afterLaunch: (full) => `${full} after launch`,
+    },
+  },
+  work: {
+    slide: "selected cafés · selected cafés · selected cafés",
+    label: "(04) WORK",
+    title: [
+      { t: "Two cafés, " },
+      { t: "made", s: "out" },
+      { t: " from " },
+      { t: "scratch", s: "script", scale: 1.2 },
+      { t: "." },
+    ],
+    note: "both are demo cafés i made up, so you can see exactly what you get.",
+    figures: {
+      melky: { fig: "fig. 01", kind: "coffee shop", plan: "Standard · AR + EN ↗" },
+      ghaym: { fig: "fig. 02", kind: "dessert café", plan: "Starter + 2nd language ↗" },
+    },
+  },
+  how: {
+    label: "(05) HOW IT WORKS",
+    title: [
+      { t: "Four steps,", s: "grot", scale: 0.82 },
+      { t: " " },
+      { t: "no", s: "italic" },
+      { t: " " },
+      { t: "surprises", s: "script", scale: 1.2 },
+      { t: "." },
+    ],
+    steps: [
+      {
+        title: "Say hi on WhatsApp",
+        body: "We talk about your café and what you need. I send you a quick mockup so you can see the direction first.",
+      },
+      {
+        title: "Deposit and content",
+        body: "You pay 50% and send your menu, photos, logo, hours and location. The delivery clock starts here.",
+      },
+      {
+        title: "Build and revise",
+        body: "I design and build. You review and send all your notes in one message per round.",
+      },
+      {
+        title: "Launch",
+        body: "You pay the other 50% and your site goes live on your own domain, registered in your name.",
+      },
+    ],
+    smallPrint: ["the small print", "(it’s short)"],
+    arrow: "→",
+    terms: [
+      "50% upfront, 50% on launch.",
+      "The clock starts once I have the deposit and all content.",
+      "One revision round = one message with all feedback.",
+      "Extra rounds or new pages after sign-off cost extra.",
+      "You own and pay for the domain.",
+      "Photography and translation are not included.",
+    ],
+  },
+  contact: {
+    label: "(06) CONTACT",
+    title: [
+      { t: "Let’s put your " },
+      { t: "café", s: "out" },
+      { t: " " },
+      { t: "on the map", s: "script", scale: 1.15, color: "sage" },
+      { t: "." },
+    ],
+    cta: "Message me on WhatsApp",
+    email: (address) => address,
+    instagram: (handle) => `@${handle}`,
+    portfolio: "portfolio ↗",
+    note: "i usually reply the same day ✶",
+    strip: ["menu", "booking", "qr poster", "arabic", "english", "google maps"],
+    madeBy: "made by hand in Mansoura · 2026",
+  },
+  notFound: {
+    title: "Page not found",
+    body: "This page doesn’t exist.",
+    back: "Back to the home page",
+  },
+} satisfies Content;

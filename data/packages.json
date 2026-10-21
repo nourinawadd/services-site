@@ -1,0 +1,82 @@
+{
+  "packages": [
+    {
+      "id": "starter",
+      "name_en": "Starter",
+      "name_ar": "البداية",
+      "launch_price": 2500,
+      "full_price": 3500,
+      "days": 5,
+      "revisions": 1,
+      "features_en": [
+        "One page with your logo and colors",
+        "Full menu with prices",
+        "Hours, map, WhatsApp, Instagram",
+        "One language, Arabic or English"
+      ],
+      "features_ar": [
+        "صفحة واحدة باللوجو والألوان بتوعك",
+        "المنيو كامل بالأسعار",
+        "المواعيد، اللوكيشن، واتساب وإنستجرام",
+        "لغة واحدة، عربي أو إنجليزي"
+      ],
+      "example_url": "https://ghaym-bakery.vercel.app/"
+    },
+    {
+      "id": "standard",
+      "name_en": "Standard",
+      "name_ar": "الكاملة",
+      "featured": true,
+      "launch_price": 4500,
+      "full_price": 6500,
+      "days": 10,
+      "revisions": 2,
+      "features_en": [
+        "Home, Menu, About, Gallery, Contact",
+        "Arabic and English with a toggle",
+        "Table booking straight to WhatsApp",
+        "Printable QR menu poster",
+        "Basic SEO and Google Maps link"
+      ],
+      "features_ar": [
+        "الرئيسية، المنيو، عننا، الصور، التواصل",
+        "عربي وإنجليزي بزرار تبديل",
+        "حجز ترابيزة على واتساب على طول",
+        "بوستر QR للمنيو جاهز للطباعة",
+        "SEO أساسي ولينك جوجل ماب"
+      ],
+      "example_url": "https://melky-cafe.vercel.app/"
+    },
+    {
+      "id": "brand",
+      "name_en": "Brand + Site",
+      "name_ar": "براند + موقع",
+      "launch_price": 8500,
+      "full_price": 12000,
+      "days": 15,
+      "revisions": "2 + 2",
+      "features_en": [
+        "2 logo concepts to choose from",
+        "Palette, fonts and a brand sheet",
+        "Printed menu, print-ready PDF",
+        "Everything in Standard, on the new brand"
+      ],
+      "features_ar": [
+        "اقتراحين للوجو تختار منهم",
+        "ألوان وخطوط وبراند شيت",
+        "منيو مطبوع، ملف PDF جاهز للمطبعة",
+        "كل اللي في الكاملة، بالهوية الجديدة"
+      ],
+      "example_url": null
+    }
+  ],
+  "addon": {
+    "id": "second-language",
+    "for": "starter",
+    "name_en": "Second language",
+    "name_ar": "لغة تانية",
+    "launch_price": 800,
+    "full_price": 1000,
+    "days": 2
+  }
+}

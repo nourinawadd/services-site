@@ -1,0 +1,288 @@
+@import "tailwindcss";
+@import "./motion.css";
+
+/* `ar:` styles an element whose language is Arabic (language tweaks such as
+   size or line height). Use `rtl:` only for direction. */
+@custom-variant ar (&:lang(ar));
+
+@theme {
+  /* The design's single breakpoint: its container query switches at 900px. */
+  --breakpoint-lg: 56.3125rem;
+  --radius-card: 6px;
+  --radius-pill: 999px;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-body: var(--body);
+  --color-muted-dark: var(--muted-dark);
+  --color-accent: var(--accent);
+  --color-moss: var(--moss);
+  --color-sage: var(--sage);
+  --color-warn: var(--warn);
+
+  /* Font roles. Each resolves per language (see :lang rules below), so one
+     class such as `font-head` gives Instrument Serif in English and Amiri in
+     Arabic, and a lang="en" span inside an Arabic page gets the English face. */
+  --font-body: var(--f-body);
+  --font-head: var(--f-head);
+  --font-label: var(--f-label);
+  --font-script: var(--f-script);
+  --font-display: var(--f-display);
+  --font-hand: var(--f-hand);
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root,
+:lang(en) {
+  --f-body: var(--font-geist), system-ui, sans-serif;
+  --f-head: var(--font-instrument), Georgia, serif;
+  --f-label: var(--font-geist-mono), ui-monospace, monospace;
+  --f-script: var(--font-pinyon), cursive;
+  --f-display: var(--font-bricolage), var(--font-geist), sans-serif;
+  --f-hand: var(--font-reenie), cursive;
+}
+:lang(ar) {
+  --f-body: var(--font-plex-ar), system-ui, sans-serif;
+  --f-head: var(--font-amiri), serif;
+  --f-label: var(--font-plex-ar), system-ui, sans-serif;
+  --f-script: var(--font-ruqaa), serif;
+  --f-display: var(--font-lalezar), sans-serif;
+  --f-hand: var(--font-playpen), sans-serif;
+}
+
+/* Direction multiplier: offset shadows, nudges, tilts and drifts use it. */
+:root {
+  --x: 1;
+}
+[dir="rtl"] {
+  --x: -1;
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+body:lang(ar) {
+  line-height: 1.75;
+}
+
+@layer base {
+  a {
+    color: inherit;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  /* Dark sections: a paper-coloured ring instead. */
+  .on-dark :focus-visible {
+    outline-color: var(--paper);
+  }
+  .on-dark {
+    --stroke: var(--paper);
+  }
+}
+
+/* Arabic text never takes letter-spacing, whatever a utility says. Latin runs
+   that should keep their tracking (the stamp) are marked lang="en". */
+:lang(ar) {
+  letter-spacing: 0 !important;
+}
+
+/* The page column: 1240px max, 48px gutters on desktop, 22px on phones. */
+@utility wrap {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 22px;
+  box-sizing: border-box;
+  @media (width >= 56.3125rem) {
+    padding-inline: 48px;
+  }
+}
+
+/* Small labels: Geist Mono, tracked, in English; Plex Sans Arabic 500 in Arabic. */
+@utility type-label {
+  font-family: var(--f-label);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  &:lang(ar) {
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+}
+
+/* Handwritten notes: Reenie Beanie in English, Playpen Sans Arabic in Arabic. */
+@utility type-hand {
+  font-family: var(--f-hand);
+  font-weight: 400;
+  line-height: 1;
+  &:lang(ar) {
+    line-height: 1.5;
+  }
+}
+
+@utility type-script {
+  font-family: var(--f-script);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  &:lang(ar) {
+    font-weight: 700;
+  }
+}
+
+/* Condensed caps (Bricolage 800 at 75% width) / Lalezar. */
+@utility type-grot {
+  font-family: var(--f-display);
+  font-style: normal;
+  font-weight: 800;
+  font-stretch: 75%;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  &:lang(ar) {
+    font-weight: 400;
+    font-stretch: normal;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+}
+
+/* Outlined words: an ink stroke on paper; .on-dark sections set --stroke to
+   paper. Solid text where strokes are unsupported. */
+@utility text-out {
+  @supports (-webkit-text-stroke: 1px) {
+    color: transparent;
+    -webkit-text-stroke: 1.3px var(--stroke, var(--ink));
+    &:lang(ar) {
+      -webkit-text-stroke-width: 1.2px;
+    }
+  }
+}
+
+/* Offset shadows that sit down and towards the end side (x flips in RTL). */
+@utility pop-accent {
+  box-shadow: calc(var(--x) * 4px) 4px 0 var(--accent);
+}
+@utility pop-sage {
+  box-shadow: calc(var(--x) * 8px) 8px 0 var(--sage);
+}
+@utility pop-soft {
+  box-shadow: calc(var(--x) * 10px) 10px 0 rgb(26 27 25 / 0.08);
+}
+
+/* Underline that grows from the start side on hover and focus. */
+@utility link-ul {
+  position: relative;
+  text-decoration: none;
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -3px;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0.25);
+    transform-origin: left;
+  }
+  &:dir(rtl)::after {
+    transform-origin: right;
+  }
+  &:hover::after,
+  &:focus-visible::after,
+  /* On a span inside a taller link, so the line hugs the text. */
+  :is(a:hover, a:focus-visible) > &::after {
+    transform: scaleX(1);
+  }
+}
+
+/*
+ * Background. Blobs are baked into small blurred images by scripts/media.mjs
+ * and stretched over the whole page, so colour flows across sections with no
+ * seams. Arabic mirrors the layer, as the Arabic artboard mirrors the blobs.
+ * Grain is one tiled noise image over the viewport.
+ */
+.page {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url(/bg/blobs-mobile.webp);
+  background-image: image-set(
+    url(/bg/blobs-mobile.avif) type("image/avif"),
+    url(/bg/blobs-mobile.webp) type("image/webp")
+  );
+  @media (width >= 56.3125rem) {
+    background-image: url(/bg/blobs-desktop.webp);
+    background-image: image-set(
+      url(/bg/blobs-desktop.avif) type("image/avif"),
+      url(/bg/blobs-desktop.webp) type("image/webp")
+    );
+  }
+}
+[dir="rtl"] .backdrop {
+  scale: -1 1;
+}
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: url(/bg/grain.webp) repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.09;
+}
+
+/* The pink and butter glow in the dark #contact section, baked like the blobs.
+   No overflow clip here: it kept the drifting strip off the compositor (a
+   repaint every frame). .page clips the ring that hangs off the bottom. */
+.contact-glow {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url(/bg/contact-mobile.webp);
+    background-image: image-set(
+      url(/bg/contact-mobile.avif) type("image/avif"),
+      url(/bg/contact-mobile.webp) type("image/webp")
+    );
+    @media (width >= 56.3125rem) {
+      background-image: url(/bg/contact-desktop.webp);
+      background-image: image-set(
+        url(/bg/contact-desktop.avif) type("image/avif"),
+        url(/bg/contact-desktop.webp) type("image/webp")
+      );
+    }
+  }
+}
+[dir="rtl"] .contact-glow::before {
+  scale: -1 1;
+}

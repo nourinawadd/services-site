@@ -1,0 +1,182 @@
+/*
+ * All motion on the site. Only transform and opacity animate (plus the one
+ * stroke-dashoffset draw of the hero's ink circle). Everything is inside
+ * prefers-reduced-motion: no-preference, so with reduced motion the page is
+ * simply still: every element sits in its final state.
+ *
+ * Mirroring: --x is 1 in LTR and -1 in RTL (globals.css). Elements that are
+ * already flipped with scaleX(-1) on /ar (the leaf) need no --x.
+ */
+
+/* Final states, which reduced motion shows as-is. */
+.ink-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes blink {
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes strip {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes breathe {
+    0%,
+    100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.75;
+      transform: scale(1.07);
+    }
+  }
+  @keyframes sway {
+    0%,
+    100% {
+      transform: rotate(-2.5deg);
+    }
+    50% {
+      transform: rotate(2deg);
+    }
+  }
+  @keyframes slide {
+    from {
+      transform: translateX(calc(var(--x) * 12%));
+    }
+    to {
+      transform: translateX(calc(var(--x) * -18%));
+    }
+  }
+  /* The blob layer is scaled up a little so its edges never show while it moves. */
+  @keyframes backdrop {
+    0%,
+    100% {
+      transform: scale(1.04) translate(0, 0);
+    }
+    50% {
+      transform: scale(1.04) translate(1.2%, -0.4%);
+    }
+  }
+
+  /* Hero: staggered rise on load. */
+  .rise-load {
+    animation: rise 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .d1 {
+    animation-delay: 0.08s;
+  }
+  .d2 {
+    animation-delay: 0.18s;
+  }
+  .d3 {
+    animation-delay: 0.3s;
+  }
+  .d4 {
+    animation-delay: 0.45s;
+  }
+
+  .ink-draw {
+    animation: draw 1.8s 0.7s cubic-bezier(0.65, 0, 0.25, 1) both;
+  }
+  .spin-slow {
+    animation: spin 30s linear infinite;
+  }
+  .blink {
+    animation: blink 1.1s steps(1) infinite;
+  }
+  .strip-drift {
+    animation: strip 42s linear infinite;
+  }
+  .ring-breathe {
+    animation: breathe 8s ease-in-out infinite;
+  }
+  .leaf-sway {
+    transform-origin: 50% 100%;
+    animation: sway 7s ease-in-out infinite;
+  }
+  @media (width >= 56.3125rem) {
+    .backdrop {
+      animation: backdrop 60s ease-in-out infinite;
+    }
+  }
+
+  /* Sections rise into view, where scroll-driven animations exist. Elsewhere they just show. */
+  @supports (animation-timeline: view()) {
+    .rise-view {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+    .slide-view {
+      animation: slide linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+
+  /* Hover: cards lift, buttons nudge, underlines grow. These use the separate
+     translate and rotate properties, so they add to the rise animation's
+     transform instead of being overridden by it. */
+  .lift {
+    transition:
+      translate 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+      rotate 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .lift:hover {
+    translate: 0 -6px;
+    rotate: calc(var(--x) * -0.35deg);
+  }
+  .nudge {
+    transition: translate 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .nudge:hover,
+  .nudge:focus-visible {
+    translate: calc(var(--x) * -2px) -2px;
+  }
+  .link-ul::after {
+    transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  /* Demo videos fade in over their poster once playing. */
+  .demo-video {
+    transition: opacity 0.6s ease;
+  }
+}
