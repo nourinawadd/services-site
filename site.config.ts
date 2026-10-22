@@ -16,6 +16,8 @@ export const site = {
     /** [HANDLE] Instagram handle without the @. */
     instagram: "nourinawadd",
     portfolio: "https://nourin.is-a.dev",
+    /** Ghaym's brand case study, the Brand + Site package's example. */
+    ghaymBrand: "https://www.behance.net/gallery/257444243/Ghaym-Brand-Identity-Website-for-a-Dessert-Caf",
   },
 
   /** The demo cafés in #work. packages.json example_url values must match one of these urls. */

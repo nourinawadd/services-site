@@ -113,7 +113,7 @@ export const en = {
       brand: {
         tag: "BRAND + 5 PAGES",
         blurb: "A new identity, then the site built on it.",
-        noExample: "Example: Ghaym brand · [coming soon]",
+        caseStudy: "Example: Ghaym brand ↗",
       },
     },
     addon: {

@@ -122,9 +122,16 @@ function PackageCard({ pkg, n, lang, t }: { pkg: Package; n: number; lang: Lang;
           {t.example(lang === "ar" ? demo.name_ar : demo.name_en)}
         </a>
       ) : (
-        <p className={`m-0 mt-auto pt-7 font-label text-[13px] ar:pt-[26px] ar:font-medium ar:text-[15px] ${soft}`}>
-          {copy.noExample}
-        </p>
+        copy.caseStudy && (
+          <a
+            href={site.contact.ghaymBrand}
+            className={`link-ul mt-auto self-start pt-7 font-mono text-[13px] ar:pt-[26px] ar:font-body ar:text-[15px] ${
+              dark ? "text-paper" : "hover:text-accent"
+            }`}
+          >
+            {copy.caseStudy}
+          </a>
+        )
       )}
     </article>
   );

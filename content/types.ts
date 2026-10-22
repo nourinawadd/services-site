@@ -66,7 +66,7 @@ export type Content = {
     days: (n: number) => string;
     revisions: (r: number | string) => string;
     example: (demoName: string) => string;
-    items: Record<PackageId, { tag: string; blurb: string; noExample?: string }>;
+    items: Record<PackageId, { tag: string; blurb: string; caseStudy?: string }>;
     addon: { label: string; description: string; afterLaunch: (fullPrice: string) => string };
   };
   work: {
