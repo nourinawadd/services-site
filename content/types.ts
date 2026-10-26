@@ -37,6 +37,7 @@ export type Content = {
     title: Mixed;
     sub: string;
     cta: string;
+    ctaNotice: string;
     seePackages: string;
     launchNote: string;
     ascii: { label: string; title: string; items: [string, string][]; button: string };
@@ -88,6 +89,7 @@ export type Content = {
     label: string;
     title: Mixed;
     cta: string;
+    ctaNotice: string;
     email: (address: string) => string;
     instagram: (handle: string) => string;
     portfolio: string;

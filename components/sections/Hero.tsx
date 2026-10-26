@@ -46,7 +46,7 @@ export function Hero({ lang, t }: { lang: Lang; t: Content["hero"] }) {
           </h1>
           <p className="rise-load d2 m-0 mt-9 max-w-[540px] text-[19px] text-body ar:mt-[30px]">{t.sub}</p>
           <div className="rise-load d3 mt-9 flex flex-wrap items-center gap-3.5 ar:mt-[34px]">
-            <WhatsAppCta label={t.cta} />
+            <WhatsAppCta label={t.cta} notice={t.ctaNotice} />
             <a
               href="#packages"
               className="link-ul inline-flex min-h-[52px] items-center px-2 font-label text-[14px] hover:text-accent ar:text-[16px]"

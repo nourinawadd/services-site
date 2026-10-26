@@ -5,8 +5,8 @@
  */
 export const site = {
   name: { en: "Nourin", ar: "نورين" },
-  domain: "services.nourin.is-a.dev",
-  url: "https://services.nourin.is-a.dev",
+  domain: "services.nourin.me",
+  url: "https://services.nourin.me",
 
   contact: {
     /** [YOUR-NUMBER] International format, digits only, for wa.me: 20 + number without the leading 0. */
@@ -14,7 +14,7 @@ export const site = {
     /** [YOUR-EMAIL] */
     email: "nourinawad@gmail.com",
     /** [HANDLE] Instagram handle without the @. */
-    instagram: "nourinawadd",
+    instagram: "nourin.web",
     portfolio: "https://nourin.is-a.dev",
     /** Ghaym's brand case study, the Brand + Site package's example. */
     ghaymBrand: "https://www.behance.net/gallery/257444243/Ghaym-Brand-Identity-Website-for-a-Dessert-Caf",

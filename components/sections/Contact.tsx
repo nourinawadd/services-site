@@ -64,7 +64,7 @@ export function Contact({ t }: { t: Content["contact"] }) {
         </h2>
         {/* The links are 44px tall, which already spaces wrapped rows on phones. */}
         <div className="rise-view mt-12 flex flex-wrap items-center gap-x-9 gap-y-1 ar:mt-11 lg:gap-y-[18px]">
-          <WhatsAppCta label={t.cta} light />
+          <WhatsAppCta label={t.cta} notice={t.ctaNotice} light />
           <a href={`mailto:${site.contact.email}`} className={link}>
             <span className="link-ul">{t.email(site.contact.email)}</span>
           </a>
